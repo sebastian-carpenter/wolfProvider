@@ -59,7 +59,7 @@ jobs:
         run: |
           autoreconf -vfi
           ./configure --with-ssl=/git/wolfProvider/openssl-install/lib64
-          make
+          make -j $(nproc)
           sudo make install
 
           # force x11vnc to use the openssl in wolfProvider
