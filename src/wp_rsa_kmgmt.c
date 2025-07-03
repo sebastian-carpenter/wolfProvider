@@ -3935,7 +3935,7 @@ static int wp_rsa_encode_text_format_hex(BIO *out, const mp_int* num,
         /* OSSL does a newline + indent every 15 bytes */
         if (ok) {
             for (i = 0; i < (int)binLen - 1; i++) {
-                if (bytes >= 14){
+                if (bytes >= 14) {
                     if (BIO_printf(out, "%02x:\n    ", binData[i]) <= 0) {
                         ok = 0;
                         break;
@@ -3998,24 +3998,25 @@ static int wp_rsa_encode_text(wp_RsaEncDecCtx* ctx, OSSL_CORE_BIO* cBio,
         /* OSSL uses nested macros to determine the number of primes, not sure
          * when there wouldn't be two primes */
         if (hasPriv && BIO_printf(out, "Private-Key: (%d bit, 2 primes)\n",
-                key->bits) <= 0){
+                key->bits) <= 0) {
             ok = 0;
-        } else if (hasPub && BIO_printf(out, "Public-Key: (%d bit)\n",
-                key->bits) <= 0){
+        }
+        else if (hasPub && BIO_printf(out, "Public-Key: (%d bit)\n",
+                key->bits) <= 0) {
             ok = 0;
         }
     }
 
     /* OSSL uses 'modulus' and 'Modulus' */
-    if (hasPriv){
+    if (hasPriv) {
         ok = wp_rsa_encode_text_format_hex(out, &key->key.n, "modulus");
     }
-    else if (hasPub){
+    else if (hasPub) {
         ok = wp_rsa_encode_text_format_hex(out, &key->key.n, "Modulus");
     }
 
     /* OSSL uses 'publicExponent' and 'Exponent' */
-    if (ok){
+    if (ok) {
         if (mp_radix_size(&key->key.e, MP_RADIX_DEC, &expLen) != MP_OKAY
                 || ((expStr = OPENSSL_malloc(expLen)) == NULL)) {
             ok = 0;
@@ -4026,7 +4027,7 @@ static int wp_rsa_encode_text(wp_RsaEncDecCtx* ctx, OSSL_CORE_BIO* cBio,
             expStr = NULL;
         }
         else {
-            if (hasPriv && BIO_printf(out, "publicExponent: %s ", expStr) <= 0){
+            if (hasPriv && BIO_printf(out, "publicExponent: %s ", expStr) <= 0) {
                 ok = 0;
             }
             else if (hasPub && BIO_printf(out, "Exponent: %s ", expStr) <= 0) {
@@ -4038,7 +4039,7 @@ static int wp_rsa_encode_text(wp_RsaEncDecCtx* ctx, OSSL_CORE_BIO* cBio,
         }
     }
 
-    if (ok){
+    if (ok) {
         if (mp_radix_size(&key->key.e, MP_RADIX_HEX, &expLen) != MP_OKAY
                 || ((expStr = OPENSSL_malloc(expLen)) == NULL)) {
             ok = 0;
@@ -4048,7 +4049,7 @@ static int wp_rsa_encode_text(wp_RsaEncDecCtx* ctx, OSSL_CORE_BIO* cBio,
             OPENSSL_free(expStr);
             expStr = NULL;
         }
-        else{
+        else {
             /* OSSL does not print a leading zero for the hex part */
             if (BIO_printf(out, "(0x%s)\n",
                     (*expStr == '0') ? (expStr + 1) : (expStr)) <= 0) {
