@@ -4027,7 +4027,8 @@ static int wp_rsa_encode_text(wp_RsaEncDecCtx* ctx, OSSL_CORE_BIO* cBio,
             expStr = NULL;
         }
         else {
-            if (hasPriv && BIO_printf(out, "publicExponent: %s ", expStr) <= 0) {
+            if (hasPriv && BIO_printf(out, "publicExponent: %s ",
+                    expStr) <= 0) {
                 ok = 0;
             }
             else if (hasPub && BIO_printf(out, "Exponent: %s ", expStr) <= 0) {
@@ -4064,7 +4065,8 @@ static int wp_rsa_encode_text(wp_RsaEncDecCtx* ctx, OSSL_CORE_BIO* cBio,
     /* Write private key components */
     if (ok && hasPriv) {
         if (ok) {
-            ok = wp_rsa_encode_text_format_hex(out, &key->key.d, "privateExponent");
+            ok = wp_rsa_encode_text_format_hex(out, &key->key.d,
+                "privateExponent");
         }
 
         if (ok) {
