@@ -1,9 +1,10 @@
 name: systemd Tests
 
 # START OF COMMON SECTION
+#   branches: ['master', 'main', 'release/**']
 on:
   push:
-    branches: ['master', 'main', 'release/**']
+    branches: ['systemd-check']
   pull_request:
     branches: ['*']
 
@@ -77,6 +78,7 @@ jobs:
           source $GITHUB_WORKSPACE/scripts/env-setup
           meson setup -Dnobody-group=nogroup build
           ninja -C build
+          ldd build/systemd
 
       - name: Run systemd tests
         working-directory: systemd
