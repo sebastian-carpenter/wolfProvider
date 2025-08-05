@@ -79,6 +79,7 @@ jobs:
           meson setup -Dnobody-group=nogroup build
           ninja -C build
           ldd build/systemd
+          # comment
 
       - name: Run systemd tests
         working-directory: systemd
